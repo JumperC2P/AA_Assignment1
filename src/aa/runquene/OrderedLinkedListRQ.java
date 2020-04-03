@@ -1,27 +1,26 @@
-package runquene;
+package aa.runquene;
 import java.io.PrintWriter;
 import java.lang.String;
 
-import runquene.impl.Runqueue;
-
+import aa.runquene.impl.Runqueue;
 
 /**
- * Implementation of the Runqueue interface using an Ordered Array.
+ * Implementation of the run queue interface using an Ordered Link List.
  *
  * Your task is to complete the implementation of this class.
  * You may add methods and attributes, but ensure your modified class compiles and runs.
  *
- * @author Sajal Halder, Minyi Li, Jeffrey Chan
+ * @author Sajal Halder, Minyi Li, Jeffrey Chan.
  */
-public class OrderedArrayRQ implements Runqueue {
+public class OrderedLinkedListRQ implements Runqueue {
 
     /**
-     * Constructs empty queue
+     * Constructs empty linked list
      */
-    public OrderedArrayRQ() {
-        // Implement Me
+    public OrderedLinkedListRQ() {
+        // Implement me
 
-    }  // end of OrderedArrayRQ()
+    }  // end of OrderedLinkedList()
 
 
     @Override
@@ -35,12 +34,12 @@ public class OrderedArrayRQ implements Runqueue {
     public String dequeue() {
         // Implement me
 
-        return ""; // placeholder,modify this
+        return ""; // placeholder, modify this
     } // end of dequeue()
 
 
     @Override
-    public boolean findProcess(String procLabel){
+    public boolean findProcess(String procLabel) {
         // Implement me
 
         return false; // placeholder, modify this
@@ -52,7 +51,7 @@ public class OrderedArrayRQ implements Runqueue {
         // Implement me
 
         return false; // placeholder, modify this
-    } // end of removeProcess()
+    } // End of removeProcess()
 
 
     @Override
@@ -60,7 +59,7 @@ public class OrderedArrayRQ implements Runqueue {
         // Implement me
 
         return -1; // placeholder, modify this
-    }// end of precedingProcessTime()
+    } // end of precedingProcessTime()
 
 
     @Override
@@ -75,6 +74,6 @@ public class OrderedArrayRQ implements Runqueue {
     public void printAllProcesses(PrintWriter os) {
         //Implement me
 
-    } // end of printAllProcesses()
+    } // end of printAllProcess()
 
-} // end of class OrderedArrayRQ
+} // end of class OrderedLinkedListRQ

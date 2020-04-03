@@ -1,26 +1,26 @@
-package runquene;
+package aa.runquene;
 import java.io.PrintWriter;
 import java.lang.String;
 
-import runquene.impl.Runqueue;
+import aa.runquene.impl.Runqueue;
 
 /**
- * Implementation of the run queue interface using an Ordered Link List.
+ * Implementation of the Runqueue interface using a Binary Search Tree.
  *
  * Your task is to complete the implementation of this class.
  * You may add methods and attributes, but ensure your modified class compiles and runs.
  *
- * @author Sajal Halder, Minyi Li, Jeffrey Chan.
+ * @author Sajal Halder, Minyi Li, Jeffrey Chan
  */
-public class OrderedLinkedListRQ implements Runqueue {
+public class BinarySearchTreeRQ implements Runqueue {
 
     /**
-     * Constructs empty linked list
+     * Constructs empty queue
      */
-    public OrderedLinkedListRQ() {
-        // Implement me
+    public BinarySearchTreeRQ() {
+        // Implement Me
 
-    }  // end of OrderedLinkedList()
+    }  // end of BinarySearchTreeRQ()
 
 
     @Override
@@ -51,7 +51,7 @@ public class OrderedLinkedListRQ implements Runqueue {
         // Implement me
 
         return false; // placeholder, modify this
-    } // End of removeProcess()
+    } // end of removeProcess()
 
 
     @Override
@@ -72,8 +72,8 @@ public class OrderedLinkedListRQ implements Runqueue {
 
     @Override
     public void printAllProcesses(PrintWriter os) {
-        //Implement me
+        // Implement me
 
     } // end of printAllProcess()
 
-} // end of class OrderedLinkedListRQ
+} // end of class BinarySearchTreeRQ

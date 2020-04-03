@@ -1,3 +1,4 @@
+package aa;
 import java.io.PrintWriter;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -7,10 +8,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.String;
 
-import runquene.BinarySearchTreeRQ;
-import runquene.OrderedArrayRQ;
-import runquene.OrderedLinkedListRQ;
-import runquene.impl.Runqueue;
+import aa.runquene.BinarySearchTreeRQ;
+import aa.runquene.OrderedArrayRQ;
+import aa.runquene.OrderedLinkedListRQ;
+import aa.runquene.impl.Runqueue;
 
 
 /**
