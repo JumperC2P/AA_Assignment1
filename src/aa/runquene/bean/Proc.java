@@ -26,6 +26,8 @@ public abstract class Proc {
 		this.vt = vt;
 	}
 	
-	
+	public String toString() {
+		return procLabel +", " + vt;
+	}
 
 }

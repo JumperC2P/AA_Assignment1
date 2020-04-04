@@ -40,6 +40,11 @@ public class OrderedArrayRQ implements Runqueue {
     		this.queneArray[0] = newProcess;
     		return;
     	}
+    	
+    	// if the procLabel is duplicated, ignore it. 
+    	if (findProcess(procLabel)) {
+    		return;
+    	}
 
     	// create a temporal array with size check
     	// if the original array is full, create a new array with original size plus indicated size.
