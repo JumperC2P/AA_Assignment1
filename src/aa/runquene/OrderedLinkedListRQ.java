@@ -33,11 +33,13 @@ public class OrderedLinkedListRQ implements Runqueue {
 
     @Override
     public void enqueue(String procLabel, int vt) {
+    	
+    	LinkedListProc newNode = new LinkedListProc(procLabel, vt);
     
     	// If headNode is null, the new node is headnode
     	if (headNode == null) {
-    		headNode = new LinkedListProc(procLabel, vt);
-    		tailNode = headNode;
+    		headNode = newNode;
+    		tailNode = newNode;
     		size++;
     		return;
     	}
@@ -45,8 +47,6 @@ public class OrderedLinkedListRQ implements Runqueue {
     	if (findProcess(procLabel)) {
     		return;
     	}
-    	
-    	LinkedListProc newNode = new LinkedListProc(procLabel, vt);
     	
     	// Recursive function to insert node with ascending order
     	insert(headNode, newNode);
