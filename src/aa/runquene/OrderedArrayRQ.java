@@ -126,13 +126,12 @@ public class OrderedArrayRQ implements Runqueue {
 		
     	for(int j = 0; j < array.length-1; j++) {
 			if(array[j] == null){
-				break;
+				continue;
 			}
-    		if(!procLabel.equals(array[j].procLabel)) {
-				precedingTime += array[j].vt;
+    		if(procLabel.equals(array[j].procLabel)) {
 				findProcess1 = true;		
 			}else{ 
-				break;
+				precedingTime += array[j].vt;
 			}				
 		}
 		if(!findProcess1){
@@ -186,7 +185,7 @@ public class OrderedArrayRQ implements Runqueue {
 			sb.append(array[i].procLabel).append(" ");
 			}
     	}
-    	os.println(sb.toString());
+		os.println(sb.toString());
     } // end of printAllProcesses()
 
 } // end of class OrderedArrayRQ
