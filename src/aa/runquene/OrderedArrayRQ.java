@@ -37,7 +37,7 @@ public class OrderedArrayRQ implements Runqueue {
 		}
     	else if(array[array.length-1] != null) {
     		OrderedArrayProc[] tempQueneArrays = new OrderedArrayProc[array.length + SIZE];
-    		System.arraycopy(array, 0, tempQueneArrays, array.length-1, array.length-1);
+    		System.arraycopy(array, 0, tempQueneArrays, 0, array.length-1);
     		array = tempQueneArrays;
     		enqueue(procLabel, vt);
     	} else {
