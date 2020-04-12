@@ -25,7 +25,7 @@ public class DataGenerator {
 	public static void main(String[] args) {
 		
 		// number, algorithm, output path
-		if (args.length != 3) {
+		if (args.length != 4) {
 			System.out.println("The number of parameters must be 3. The order is number(max.5000), algorithm, output file path");
 		}
 		
