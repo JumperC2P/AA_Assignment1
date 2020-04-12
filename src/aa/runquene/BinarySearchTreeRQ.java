@@ -43,6 +43,10 @@ public class BinarySearchTreeRQ implements Runqueue {
     		return;
     	}
     	
+    	if (findProcess(procLabel)) {
+    		return;
+    	}
+    	
     	insert(rootNode, newNode);
     	
     	size++;
@@ -77,11 +81,15 @@ public class BinarySearchTreeRQ implements Runqueue {
 	@Override
     public String dequeue() {
 		
+		
+		if (rootNode == null)
+			return "";
+		
 		BSTProc minProc = findMinVruntime(rootNode);
 		
 		Boolean isRemove = removeProcess(minProc.getProcLabel());
 
-        return isRemove?minProc.getProcLabel():""; // placeholder, modify this
+        return isRemove?minProc.getProcLabel():"";
     } // end of dequeue()
 
 
@@ -151,8 +159,12 @@ public class BinarySearchTreeRQ implements Runqueue {
     		
     		if (parentNode == null) {
     			rootNode = substitueNode;
+    			if (substitueNode != null)
+    				substitueNode.setParentNode(parentNode);
+    			if (targetLeftNode == null)
+    				size--;
+    				return true;
     		}
-    		
     		
     		if (subRightNode != null) {
     			if (targetRightNode != null) {
@@ -200,9 +212,13 @@ public class BinarySearchTreeRQ implements Runqueue {
     	}
     	
     	if (parentNode != null) {
-    		if (targetNode.getVt() < parentNode.getVt()) {
+    		
+    		BSTProc parentLeftNode = parentNode.getLeftNode();
+    		BSTProc parentRightNode = parentNode.getRightNode();
+    		
+    		if (parentLeftNode != null && targetNode.getProcLabel().equals(parentLeftNode.getProcLabel())) {
     			parentNode.setLeftNode(substitueNode);
-    		}else {
+    		}else if (parentRightNode != null && targetNode.getProcLabel().equals(parentRightNode.getProcLabel())){
     			parentNode.setRightNode(substitueNode);
     		}
 		}

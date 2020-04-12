@@ -111,6 +111,9 @@ public class OrderedLinkedListRQ implements Runqueue {
     @Override
     public String dequeue() {
     	
+    	if (headNode == null)
+    		return "";
+    	
     	//record to label of nodes which will be deleted.
     	String deleteProcLabel = headNode.getProcLabel();
     	

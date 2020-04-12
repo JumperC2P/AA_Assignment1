@@ -87,7 +87,7 @@ public class DataGenerator {
 			System.exit(1);
 		}
 		
-		outWriter.println("Number, Algorithm, EN Time, PT Time, ST Time, DE Time");
+		outWriter.println("Number, Algorithm, EN Time, PT Time, PT Sum, ST Time, ST Sum, DE Time");
 		
 		for (Integer number : numbers) {
 			runByNumbers(turns, number, runAlgorithm, outWriter);
@@ -100,22 +100,20 @@ public class DataGenerator {
 
 	private static void runByNumbers(Integer turns, Integer number, Map<String, Boolean> runAlgorithm, PrintWriter outWriter) {
 		
-		List<String> dataList = dataPreparation(number);
-		
-		String targetForPT = dataList.get(dataList.size()-1);
-//		String targetForPT = dataList.get(new Random().nextInt(dataList.size()));
-		
-		
-		
-		for (String action : runAlgorithm.keySet()) {
-			if (runAlgorithm.get(action)) {
-				int i = 1;
-				while (i <= turns) {
-					run(action, dataList, targetForPT, outWriter);
+		int i = 1;
+		while (i <= turns) {
+			List<String> dataList = dataPreparation(number);
+			
+			String targetForPT = dataList.get(dataList.size()-1);
+	//		String targetForPT = dataList.get(new Random().nextInt(dataList.size()));
+			
+			for (String action : runAlgorithm.keySet()) {
+				if (runAlgorithm.get(action)) {
 					System.out.println(action + ": " + i);
-					i++;
+					run(action, dataList, targetForPT, outWriter);
 				}
 			}
+			i++;
 		}
 		
 	}
@@ -149,29 +147,36 @@ public class DataGenerator {
 		
 		long enTime = endTime-startTime;
 		startTime = System.currentTimeMillis();
-		int sum = queue.precedingProcessTime(targetForPT.split(",")[0]);
+		int ptSum = queue.precedingProcessTime(targetForPT.split(",")[0]);
 		endTime = System.currentTimeMillis();
 		
 		long ptTime = endTime-startTime;
 		startTime = System.currentTimeMillis();
-		int sum1 = queue.succeedingProcessTime(targetForPT.split(",")[0]);
+		int stSum = queue.succeedingProcessTime(targetForPT.split(",")[0]);
 		endTime = System.currentTimeMillis();
 		
 		long stTime = endTime-startTime;
 		startTime = System.currentTimeMillis();
-		for (int i = 1 ; i <= dataList.size() ; i++) {
-			queue.dequeue();
-		}
+		String deLabel ="";
+		String pre = "";
+		do {
+			deLabel = queue.dequeue();
+			if (pre.equals(deLabel)) {
+				System.out.println(deLabel);
+			}else {
+				pre = deLabel;
+			}
+		} while (deLabel.trim().length() > 0);
 		endTime = System.currentTimeMillis();
 
 		long deTime = endTime-startTime;
 		
-		outWriter.println(dataList.size()+", "+action+", "+ enTime +", "+ ptTime + ", " + stTime + ", " + deTime);
+		outWriter.println(dataList.size()+", "+action+", "+ enTime +", "+ ptTime + ", " + ptSum + ", " + stTime + ", " + stSum + ", " + deTime);
 	}
 
 	private static List<String> dataPreparation(Integer number) {
 		
-		String filePath = System.getProperty("user.dir")+"/processes.txt";
+		String filePath = System.getProperty("user.dir")+"/src/processes.txt";
 		List<String> data = new ArrayList<>();
 		
 		BufferedReader inReader = null;

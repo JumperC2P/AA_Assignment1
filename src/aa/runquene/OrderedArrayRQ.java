@@ -41,6 +41,7 @@ public class OrderedArrayRQ implements Runqueue {
     		System.arraycopy(array, 0, tempQueneArrays, 0, array.length);
     		array = tempQueneArrays;
     		enqueue(procLabel, vt);
+    		size--;
     	} else {
         		for(int j = 0; j < array.length-1; j++) {
         			if(array[j] == null) {
@@ -65,13 +66,14 @@ public class OrderedArrayRQ implements Runqueue {
     @Override
     public String dequeue() {
 		// Implement me
+    	if (array[0] == null){
+    		return"";
+    	}
+    	
     	OrderedArrayProc[] tempQueneArray = new OrderedArrayProc[array.length];
 		
 		for (int j = 1 ; j < array.length ; j++) {
 			
-			if (array[0] == null){
-				return"";
-			}
 			tempQueneArray[j-1] = array[j];
 		}
 		
