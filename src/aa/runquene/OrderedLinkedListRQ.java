@@ -218,11 +218,14 @@ public class OrderedLinkedListRQ implements Runqueue {
 
 
     private int sumVruntime(int sum, LinkedListProc currentNode) {
-		sum += currentNode.getVt();
-		if (currentNode.getNextNode() == null) {
-			return sum;
-		}
-		return sumVruntime(sum, currentNode.getNextNode());
+    	if (currentNode != null) {
+    		sum += currentNode.getVt();
+    		if (currentNode.getNextNode() == null) {
+    			return sum;
+    		}
+    		return sumVruntime(sum, currentNode.getNextNode());
+    	}
+    	return sum;
 	}
 
 
