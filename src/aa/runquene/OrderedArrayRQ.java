@@ -2,8 +2,11 @@ package aa.runquene;
 
 
 import java.io.PrintWriter;
+import java.lang.String;
+
 import aa.runquene.bean.OrderedArrayProc;
 import aa.runquene.impl.Runqueue;
+
 
 /**
  * Implementation of the Runqueue interface using an Ordered Array.
@@ -14,187 +17,227 @@ import aa.runquene.impl.Runqueue;
  * @author Sajal Halder, Minyi Li, Jeffrey Chan, Chih-Hsuan Lee<s3714761>, Yiheng Liu<s3673551>
  */
 public class OrderedArrayRQ implements Runqueue {
-
-	private final int DEFAULT_LENGTH = 10;
-	private OrderedArrayProc[] array;
+	
+	private final int SIZE = 10;
+	private OrderedArrayProc[] queneArray;
 	private int size = 0;
-	
-	
+
     /**
      * Constructs empty queue
      */
     public OrderedArrayRQ() {
-        // Implement Me
-        array = new OrderedArrayProc[DEFAULT_LENGTH];
+       
+    	this.queneArray = new OrderedArrayProc[SIZE];
+
     }  // end of OrderedArrayRQ()
 
 
     @Override
     public void enqueue(String procLabel, int vt) {
-        // Implement me
-    	// find the proper position for the input
-    	if(array[0] == null){
-			array[0] = new OrderedArrayProc(procLabel, vt);
-		}
-    	else if(array[array.length-1] != null) {
-    		OrderedArrayProc[] tempQueneArrays = new OrderedArrayProc[array.length + DEFAULT_LENGTH];
-    		System.arraycopy(array, 0, tempQueneArrays, 0, array.length);
-    		array = tempQueneArrays;
-    		enqueue(procLabel, vt);
-    		size--;
-    	} else {
-        		for(int j = 0; j < array.length-1; j++) {
-        			if(array[j] == null) {
-        				array[j] = new OrderedArrayProc(procLabel, vt);
-        				break;
-					}
-					else if(procLabel.equals(array[j].getProcLabel())){
-						break;
-					}
-        		if(vt < array[j].getVt()) {
-        			System.arraycopy(array, j, array, j+1, array.length-j-1);
-        			array[j] = new OrderedArrayProc(procLabel, vt);
-        			break;
-        		}
-        	}
-    	}
-    	size++;
     	
+    	// create a new process object with procLabel and vt
+    	OrderedArrayProc newProcess = new OrderedArrayProc(procLabel, vt);
+    	
+    	// If the process is the first one in the array, insert it and end the method.
+    	if (this.queneArray[0] == null) {
+    		this.queneArray[0] = newProcess;
+    		return;
+    	}
+    	
+    	// if the procLabel is duplicated, ignore it. 
+    	if (findProcess(procLabel)) {
+    		return;
+    	}
+
+    	// create a temporal array with size check
+    	// if the original array is full, create a new array with original size plus indicated size.
+    	// if not, create a new array with the same size with that of original array.
+    	OrderedArrayProc[] tempQueneArray;
+    	if (this.queneArray[queneArray.length-1] != null)
+    		tempQueneArray = new OrderedArrayProc[this.queneArray.length+SIZE];
+    	else
+    		tempQueneArray = new OrderedArrayProc[this.queneArray.length];
+    	
+    	// use the boolean to record whether the new process is inserted.
+    	Boolean isInsert = false;
+    	int position = 0;
+    	for (int j = 0 ; j < this.queneArray.length ; j++) {
+    		
+    		// end the lopp if it comes to a null element
+    		if (queneArray[j] == null) {
+    			position = j;
+    			break;
+    		}
+    		
+    		// if the new process is inserted, move original elements backward 1 position
+    		if (isInsert) {
+    			tempQueneArray[j+1] = this.queneArray[j];
+    		}else {
+    			// if the vt of the element in array is higher than vt from input
+    			// insert the new process into the current position
+    			// and change the value of boolean from false to true
+    			if (this.queneArray[j].getVt() > vt) {
+    				tempQueneArray[j] = newProcess;
+    				j--;
+    				isInsert = true;
+        		}else {
+        			tempQueneArray[j] = this.queneArray[j];
+        		}
+    		}
+    	}
+    	
+    	// if there is no change in the loop,
+    	// it means that the vt of new process is the highest one.
+    	// so insert the new process into the first position of null.
+    	if (!isInsert)
+    		tempQueneArray[position] = newProcess;
+    	this.queneArray = tempQueneArray;
+    	size++;
+
     } // end of enqueue()
 
 
-    @Override
+	@Override
     public String dequeue() {
-		// Implement me
-    	if (array[0] == null){
-    		return"";
-    	}
-    	
-    	OrderedArrayProc[] tempQueneArray = new OrderedArrayProc[array.length];
 		
-		for (int j = 1 ; j < array.length ; j++) {
+		// create a temporal array with the same size of original array
+		OrderedArrayProc[] tempQueneArray = new OrderedArrayProc[this.queneArray.length];
+		
+		// insert all the elements in the original array, except the first element.
+		for (int i = 1 ; i < this.queneArray.length ; i++) {
 			
-			tempQueneArray[j-1] = array[j];
+			if (this.queneArray[i] == null)
+				break;
+			
+			tempQueneArray[i-1] = this.queneArray[i];
 		}
 		
-		String del = array[0].getProcLabel();
-		array = tempQueneArray;
+		String delProcLabel = this.queneArray[0].getProcLabel();
+		this.queneArray = tempQueneArray;
 		
 		size--;
-        return del; // placeholder,modify this
+        return delProcLabel; // placeholder,modify this
     } // end of dequeue()
 
 
     @Override
     public boolean findProcess(String procLabel){
-        // Implement me
-    	for(int j = 0; j < array.length-1; j++) {
-			if(array[j] == null){
-				return false;
-			}
-			if(procLabel.equals(array[j].getProcLabel())){
-				return true;			
-			}
+        
+    	// search the same procLabel in the array
+    	for (OrderedArrayProc process : this.queneArray) {
+    		
+    		if (process == null)
+    			break;
+    		
+    		if (procLabel.equals(process.getProcLabel()))
+    			return true;
     	}
-    	return false;
+
+        return false; 
     } // end of findProcess()
 
 
     @Override
     public boolean removeProcess(String procLabel) {
-		// Implement me
-		Boolean remove = false;
-    	for(int j = 0; j < array.length-1; j++) {
-			if(array[j] == null){
-				return remove;
-			}
-    		if(procLabel.equals(array[j].getProcLabel())) {
-				System.arraycopy(array, j+1, array, j, array.length-j-1);
-				remove = true;
-			}
+        
+    	OrderedArrayProc[] tempQueneArray = new OrderedArrayProc[this.queneArray.length];
+    	int i = 0;
+    	Boolean isRemove = false;
+    	
+    	for (OrderedArrayProc process : this.queneArray) {
+    		
+    		if (process == null)
+    			break;
+    		
+    		if (procLabel.equals(process.getProcLabel())) {
+    			isRemove = true;
+    			continue;
+    		}else
+    			tempQueneArray[i] = process;
+    		i++;
     	}
-    	size--;
-    	return remove;
+		
+		this.queneArray = tempQueneArray;
+
+		if (isRemove) {
+			size--;
+		}
+        return isRemove;
     } // end of removeProcess()
 
 
     @Override
     public int precedingProcessTime(String procLabel) {
-        // Implement me
-		int precedingTime = 0;
-		Boolean findProcess1 = false;
-		
-    	for(int j = 0; j < array.length-1; j++) {
-			if(array[j] == null){
-				continue;
-			}
-    		if(procLabel.equals(array[j].getProcLabel())) {
-				findProcess1 = true;
-				break;
-			}else{ 
-				precedingTime += array[j].getVt();
-			}				
-		}
-		if(!findProcess1){
-			return -1;
-		}
-		return precedingTime;
+    	
+    	int sum = 0;
+    	Boolean isFound = false;
+    	
+    	for (OrderedArrayProc process : this.queneArray) {
+    		if (process == null)
+    			break;
+    		
+    		if (procLabel.equals(process.getProcLabel())) {
+    			isFound = true;
+    			break;
+    		}else
+    			sum += process.getVt();
+    		
+    	}
+    	
+    	if (!isFound)
+    		sum = -1;
+    	
+        return sum; // placeholder, modify this
     }// end of precedingProcessTime()
 
 
     @Override
     public int succeedingProcessTime(String procLabel) {
-        // Implement me
-		int Time = 0;
-		int beforeTime = 0;
-		Boolean findProcess2 = false;
-		for(int j = 0; j < array.length; j++) {
-			if(array[j] == null){
-				break;
-			}if(procLabel.equals(array[j].getProcLabel())) {
-				findProcess2 = true;
-				beforeTime =j+1;	
-				break;
-			}
-		}
-		if (findProcess2){
-			for(int a=beforeTime; a <array.length; a++){	
-				if(array[a]==null){
-					break;
-				}else{
-					Time += array[a].getVt();
-				}
-			}
-		}
-		if(!findProcess2){
-			return -1;
-		}
-    	return Time;
-    } // end of SucceedingProcessTime()
+    	
+    	int sum = 0;
+    	Boolean isFound = false;
+    	
+    	for (OrderedArrayProc process : this.queneArray) {
+    		if (process == null)
+    			break;
+    		
+    		if (isFound)
+    			sum += process.getVt();
+    		
+    		if (procLabel.equals(process.getProcLabel())) {
+    			isFound = true;
+    			continue;
+    		}
+    	}
+    	
+    	if (!isFound)
+    		sum = -1;
+    	
+        return sum;
+    } // end of precedingProcessTime()
 
 
     @Override
     public void printAllProcesses(PrintWriter os) {
-        //Implement me
-		
-		os.println(this.toString());
-    } // end of printAllProcesses()
-    
-    public String toString() {
+    	
     	StringBuffer sb = new StringBuffer();
-		for(int i = 0; i < array.length-1; i++) {
-    		if(array[i] == null){
-				break;
-			}else{
-			sb.append(array[i].getProcLabel()).append(" ");
-			}
+    	
+    	for (OrderedArrayProc process : this.queneArray) {
+    		if (process == null) {
+    			break;
+    		}else {
+    			sb.append(process.getProcLabel()).append(" ");
+    		}
     	}
-		return sb.toString();
-    }
-    
-    public int getSize() {
-    	return size;
-    }
+    	
+    	os.println(sb.toString());
+
+    } // end of printAllProcesses()
+
+
+	@Override
+	public int getSize() {
+		return 0;
+	}
 
 } // end of class OrderedArrayRQ
-
