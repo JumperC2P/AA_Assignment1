@@ -16,7 +16,7 @@ import aa.runquene.impl.Runqueue;
  */
 public class BinarySearchTreeRQ implements Runqueue {
 	
-	private final int REBUILD_SIZE = 5;
+	private final int REBUILD_SIZE = 100;
 	BSTProc rootNode;
 	int size;
 	int index = 0;
