@@ -37,11 +37,19 @@ public class DataGenerator {
 				numbers.add(Integer.valueOf(number));
 			}
 		}catch (NumberFormatException e) {
-			System.out.println("The first parameter is a number.");
+			System.out.println("The first parameter must be number or a list of numbers.");
 			System.exit(1);
 		}
 		
-		String algorithm = args[1].toLowerCase();
+		Integer turns = null;
+		try {
+			turns = Integer.valueOf(args[1]);
+		}catch (NumberFormatException e) {
+			System.out.println("The second parameter must be a number.");
+			System.exit(1);
+		}
+		
+		String algorithm = args[2].toLowerCase();
 		Map<String, Boolean> runAlgorithm = new HashMap<>();
 		runAlgorithm.put("array", false);
 		runAlgorithm.put("list", false);
@@ -72,7 +80,7 @@ public class DataGenerator {
 		PrintWriter outWriter = null;
 		
 		try {
-			outWriter = new PrintWriter(new FileWriter(args[2]), true);
+			outWriter = new PrintWriter(new FileWriter(args[3]), true);
 		}catch (IOException ioe) {
 			System.out.println("Failed to load the output file.");
 			System.exit(1);
@@ -81,14 +89,14 @@ public class DataGenerator {
 		outWriter.println("Number, Algorithm, EN Time, PT Time, ST Time, DE Time");
 		
 		for (Integer number : numbers) {
-			runByNumbers(number, runAlgorithm, outWriter);
+			runByNumbers(turns, number, runAlgorithm, outWriter);
 		}
 		
 		outWriter.close();
 
 	}
 
-	private static void runByNumbers(Integer number, Map<String, Boolean> runAlgorithm, PrintWriter outWriter) {
+	private static void runByNumbers(Integer turns, Integer number, Map<String, Boolean> runAlgorithm, PrintWriter outWriter) {
 		
 		List<String> dataList = dataPreparation(number);
 		
@@ -100,8 +108,12 @@ public class DataGenerator {
 		
 		for (String action : runAlgorithm.keySet()) {
 			if (runAlgorithm.get(action)) {
-				run(action, dataList, targetForPT, outWriter);
-				System.out.println("-------------------------------");
+				int i = 1;
+				while (i <= turns) {
+					run(action, dataList, targetForPT, outWriter);
+					System.out.println("-------------------------------");
+					i++;
+				}
 			}
 		}
 		
@@ -129,8 +141,6 @@ public class DataGenerator {
 		
 		System.out.println("Algorithm: " + action.toUpperCase());
 		System.out.println("Scenario 1: Enqueue");
-//		outWriter.write("Algorithm: " + action.toUpperCase());
-//		outWriter.write("Scenario 1: Enqueue");
 		Long startTime = System.currentTimeMillis();
 		for(String data : dataList) {
 			String[] info = data.split(",");
@@ -180,22 +190,11 @@ public class DataGenerator {
 		
 		BufferedReader inReader = null;
 		
-//		String sample = "P4974 P1623 P4466 P2964 P450 P3573 P4207 P2333 P4078 P3034 P4076 P120 P1058 P2226 P1665 P3930 P2338 P3633 P2946 P2640 P720 P957 P2499 P4591 P4839";
-//		String[] array = sample.split(" ");
-		
 		try {
 			inReader = new BufferedReader(new FileReader(filePath));
 			String line;
 			while ((line = inReader.readLine()) != null) {
 				if (line.split(",").length == 2) {
-//					boolean isFound = false;
-//					for (String s : array) {
-//						if (s.equals(line.split(",")[0])) {
-//							isFound = true;
-//							break;
-//						}
-//					}
-//					if (isFound)
 					data.add(line);
 				}
 			}
