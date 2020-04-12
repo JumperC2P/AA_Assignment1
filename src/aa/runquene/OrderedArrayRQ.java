@@ -143,7 +143,7 @@ public class OrderedArrayRQ implements Runqueue {
     @Override
     public int succeedingProcessTime(String procLabel) {
         // Implement me
-		int precedingTime = 0;
+		int Time = 0;
 		int beforeTime = 0;
 		Boolean findProcess2 = false;
 		for(int j = 0; j < array.length; j++) {
@@ -160,14 +160,14 @@ public class OrderedArrayRQ implements Runqueue {
 				if(array[a]==null){
 					break;
 				}else{
-					precedingTime += array[a].getVt();
+					Time += array[a].getVt();
 				}
 			}
 		}
 		if(!findProcess2){
 			return -1;
 		}
-    	return precedingTime;
+    	return Time;
     } // end of SucceedingProcessTime()
 
 
