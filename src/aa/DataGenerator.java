@@ -138,25 +138,25 @@ public class DataGenerator {
 				break;
 		}
 		
-		Long startTime = System.currentTimeMillis();
+		Long startTime = System.nanoTime();
 		for(String data : dataList) {
 			String[] info = data.split(",");
 			queue.enqueue(info[0], Integer.valueOf(info[1]));
 		}
-		Long endTime = System.currentTimeMillis();
+		Long endTime = System.nanoTime();
 		
-		long enTime = endTime-startTime;
-		startTime = System.currentTimeMillis();
+		long enTime = (endTime-startTime)/1000;
+		startTime = System.nanoTime();
 		int ptSum = queue.precedingProcessTime(targetForPT.split(",")[0]);
-		endTime = System.currentTimeMillis();
+		endTime = System.nanoTime();
 		
-		long ptTime = endTime-startTime;
-		startTime = System.currentTimeMillis();
+		long ptTime = (endTime-startTime)/1000;
+		startTime = System.nanoTime();
 		int stSum = queue.succeedingProcessTime(targetForPT.split(",")[0]);
-		endTime = System.currentTimeMillis();
+		endTime = System.nanoTime();
 		
-		long stTime = endTime-startTime;
-		startTime = System.currentTimeMillis();
+		long stTime = (endTime-startTime)/1000;
+		startTime = System.nanoTime();
 		String deLabel ="";
 		String pre = "";
 		do {
@@ -167,9 +167,9 @@ public class DataGenerator {
 				pre = deLabel;
 			}
 		} while (deLabel.trim().length() > 0);
-		endTime = System.currentTimeMillis();
+		endTime = System.nanoTime();
 
-		long deTime = endTime-startTime;
+		long deTime = (endTime-startTime)/1000;
 		
 		outWriter.println(dataList.size()+", "+action+", "+ enTime +", "+ ptTime + ", " + ptSum + ", " + stTime + ", " + stSum + ", " + deTime);
 	}
