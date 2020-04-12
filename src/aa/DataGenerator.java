@@ -109,7 +109,7 @@ public class DataGenerator {
 			
 			for (String action : runAlgorithm.keySet()) {
 				if (runAlgorithm.get(action)) {
-					System.out.println(action + ": " + i);
+					System.out.println(number + ": "+ action + ": " + i);
 					run(action, dataList, targetForPT, outWriter);
 				}
 			}
