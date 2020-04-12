@@ -104,8 +104,8 @@ public class DataGenerator {
 		while (i <= turns) {
 			List<String> dataList = dataPreparation(number);
 			
-			String targetForPT = dataList.get(dataList.size()-1);
-	//		String targetForPT = dataList.get(new Random().nextInt(dataList.size()));
+//			String targetForPT = dataList.get(dataList.size()-1);
+			String targetForPT = dataList.get(new Random().nextInt(dataList.size()));
 			
 			for (String action : runAlgorithm.keySet()) {
 				if (runAlgorithm.get(action)) {
