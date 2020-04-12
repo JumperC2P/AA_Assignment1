@@ -93,6 +93,7 @@ public class DataGenerator {
 		}
 		
 		outWriter.close();
+		System.out.println("Please check the file:" + args[3]);
 
 	}
 
@@ -103,7 +104,7 @@ public class DataGenerator {
 		String targetForPT = dataList.get(dataList.size()-1);
 //		String targetForPT = dataList.get(new Random().nextInt(dataList.size()));
 		
-		System.out.println("The number of data: " + number);
+//		System.out.println("The number of data: " + number);
 		
 		
 		for (String action : runAlgorithm.keySet()) {
@@ -111,7 +112,7 @@ public class DataGenerator {
 				int i = 1;
 				while (i <= turns) {
 					run(action, dataList, targetForPT, outWriter);
-					System.out.println("-------------------------------");
+//					System.out.println("-------------------------------");
 					i++;
 				}
 			}
@@ -139,8 +140,8 @@ public class DataGenerator {
 				break;
 		}
 		
-		System.out.println("Algorithm: " + action.toUpperCase());
-		System.out.println("Scenario 1: Enqueue");
+//		System.out.println("Algorithm: " + action.toUpperCase());
+//		System.out.println("Scenario 1: Enqueue");
 		Long startTime = System.currentTimeMillis();
 		for(String data : dataList) {
 			String[] info = data.split(",");
@@ -149,28 +150,28 @@ public class DataGenerator {
 		Long endTime = System.currentTimeMillis();
 		
 		long enTime = endTime-startTime;
-		System.out.println(queue.toString());
-		System.out.println("The time used of enqueuing: " + enTime + " ms.");
-		
-		System.out.println("Scenario 3: PT");
+//		System.out.println(queue.toString());
+//		System.out.println("The time used of enqueuing: " + enTime + " ms.");
+//		
+//		System.out.println("Scenario 3: PT");
 		startTime = System.currentTimeMillis();
 		int sum = queue.precedingProcessTime(targetForPT.split(",")[0]);
 		endTime = System.currentTimeMillis();
 		
 		long ptTime = endTime-startTime;
-		System.out.println("The target is: " + targetForPT.split(",")[0] + ", and the sum is: " + sum);
-		System.out.println("The time used of PT: " + ptTime + " ms.");
-		
-		System.out.println("Scenario 4: ST");
+//		System.out.println("The target is: " + targetForPT.split(",")[0] + ", and the sum is: " + sum);
+//		System.out.println("The time used of PT: " + ptTime + " ms.");
+//		
+//		System.out.println("Scenario 4: ST");
 		startTime = System.currentTimeMillis();
 		int sum1 = queue.succeedingProcessTime(targetForPT.split(",")[0]);
 		endTime = System.currentTimeMillis();
 		
 		long stTime = endTime-startTime;
-		System.out.println("The target is: " + targetForPT.split(",")[0] + ", and the sum is: " + sum1);
-		System.out.println("The time used of ST: " + stTime + " ms.");
-		
-		System.out.println("Scenario 2: Dequeue");
+//		System.out.println("The target is: " + targetForPT.split(",")[0] + ", and the sum is: " + sum1);
+//		System.out.println("The time used of ST: " + stTime + " ms.");
+//		
+//		System.out.println("Scenario 2: Dequeue");
 		startTime = System.currentTimeMillis();
 		for (int i = 1 ; i <= dataList.size() ; i++) {
 			queue.dequeue();
@@ -178,7 +179,7 @@ public class DataGenerator {
 		endTime = System.currentTimeMillis();
 
 		long deTime = endTime-startTime;
-		System.out.println("The time used of dequeuing: " + deTime + " ms.");
+//		System.out.println("The time used of dequeuing: " + deTime + " ms.");
 		
 		outWriter.println(dataList.size()+", "+action+", "+ enTime +", "+ ptTime + ", " + stTime + ", " + deTime);
 	}
