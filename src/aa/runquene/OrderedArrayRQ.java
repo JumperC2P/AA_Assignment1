@@ -100,6 +100,10 @@ public class OrderedArrayRQ implements Runqueue {
 	@Override
     public String dequeue() {
 		
+		if (this.queneArray[0] == null) {
+			return "";
+		}
+		
 		// create a temporal array with the same size of original array
 		OrderedArrayProc[] tempQueneArray = new OrderedArrayProc[this.queneArray.length];
 		
