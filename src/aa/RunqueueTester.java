@@ -18,7 +18,7 @@ import aa.runquene.impl.Runqueue;
  * Framework to test the process scheduler implementations.
  * NO NEED TO MODIFY THIS FILE.
  *
- * @author Sajal Halder, Minyi Li, Jeffrey Chan
+ * @author Sajal Halder, Minyi Li, Jeffrey Chan, Chih-Hsuan Lee<s3714761>
  */
 public class RunqueueTester {
 

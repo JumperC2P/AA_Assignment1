@@ -15,8 +15,9 @@ import aa.runquene.impl.Runqueue;
  */
 public class OrderedArrayRQ implements Runqueue {
 
-	private final int SIZE = 10;
+	private final int DEFAULT_LENGTH = 10;
 	private OrderedArrayProc[] array;
+	private int size = 0;
 	
 	
     /**
@@ -24,7 +25,7 @@ public class OrderedArrayRQ implements Runqueue {
      */
     public OrderedArrayRQ() {
         // Implement Me
-        array = new OrderedArrayProc[SIZE];
+        array = new OrderedArrayProc[DEFAULT_LENGTH];
     }  // end of OrderedArrayRQ()
 
 
@@ -36,15 +37,15 @@ public class OrderedArrayRQ implements Runqueue {
 			array[0] = new OrderedArrayProc(procLabel, vt);
 		}
     	else if(array[array.length-1] != null) {
-    		OrderedArrayProc[] tempQueneArrays = new OrderedArrayProc[array.length + SIZE];
-    		System.arraycopy(array, 0, tempQueneArrays, array.length-1, array.length-1);
+    		OrderedArrayProc[] tempQueneArrays = new OrderedArrayProc[array.length + DEFAULT_LENGTH];
+    		System.arraycopy(array, 0, tempQueneArrays, 0, array.length);
     		array = tempQueneArrays;
     		enqueue(procLabel, vt);
     	} else {
         		for(int j = 0; j < array.length-1; j++) {
         			if(array[j] == null) {
         				array[j] = new OrderedArrayProc(procLabel, vt);
-        				return;
+        				break;
 					}
 					else if(procLabel.equals(array[j].getProcLabel())){
 						break;
@@ -52,10 +53,11 @@ public class OrderedArrayRQ implements Runqueue {
         		if(vt < array[j].getVt()) {
         			System.arraycopy(array, j, array, j+1, array.length-j-1);
         			array[j] = new OrderedArrayProc(procLabel, vt);
-        			return;
+        			break;
         		}
         	}
     	}
+    	size++;
     	
     } // end of enqueue()
 
@@ -76,6 +78,7 @@ public class OrderedArrayRQ implements Runqueue {
 		String del = array[0].getProcLabel();
 		array = tempQueneArray;
 		
+		size--;
         return del; // placeholder,modify this
     } // end of dequeue()
 
@@ -108,6 +111,7 @@ public class OrderedArrayRQ implements Runqueue {
 				remove = true;
 			}
     	}
+    	size--;
     	return remove;
     } // end of removeProcess()
 
@@ -142,7 +146,7 @@ public class OrderedArrayRQ implements Runqueue {
 		int precedingTime = 0;
 		int beforeTime = 0;
 		Boolean findProcess2 = false;
-		for(int j = 0; j < array.length-1; j++) {
+		for(int j = 0; j < array.length; j++) {
 			if(array[j] == null){
 				break;
 			}if(procLabel.equals(array[j].getProcLabel())) {
@@ -152,7 +156,7 @@ public class OrderedArrayRQ implements Runqueue {
 			}
 		}
 		if (findProcess2){
-			for(int a=beforeTime; a <array.length-1; a++){	
+			for(int a=beforeTime; a <array.length; a++){	
 				if(array[a]==null){
 					break;
 				}else{
@@ -170,7 +174,12 @@ public class OrderedArrayRQ implements Runqueue {
     @Override
     public void printAllProcesses(PrintWriter os) {
         //Implement me
-		StringBuffer sb = new StringBuffer();
+		
+		os.println(this.toString());
+    } // end of printAllProcesses()
+    
+    public String toString() {
+    	StringBuffer sb = new StringBuffer();
 		for(int i = 0; i < array.length-1; i++) {
     		if(array[i] == null){
 				break;
@@ -178,8 +187,12 @@ public class OrderedArrayRQ implements Runqueue {
 			sb.append(array[i].getProcLabel()).append(" ");
 			}
     	}
-		os.println(sb.toString());
-    } // end of printAllProcesses()
+		return sb.toString();
+    }
+    
+    public int getSize() {
+    	return size;
+    }
 
 } // end of class OrderedArrayRQ
 

@@ -116,7 +116,8 @@ public class OrderedLinkedListRQ implements Runqueue {
     	
     	// head node changes.
     	headNode = headNode.getNextNode();
-    	headNode.setPrevNode(null);
+    	if (headNode != null)
+    		headNode.setPrevNode(null);
     	// reduce size
     	size--;
     	
@@ -225,13 +226,15 @@ public class OrderedLinkedListRQ implements Runqueue {
 	@Override
     public void printAllProcesses(PrintWriter os) {
     	
-    	StringBuffer sb = new StringBuffer();
-		sb = getLabel(sb, headNode);
-		
-		os.println(sb.toString());
+		os.println(this.toString());
 
     } // end of printAllProcess()
     
+	
+	public String toString() {
+		return getLabel(new StringBuffer(), headNode).toString();
+	}
+	
     
     private StringBuffer getLabel(StringBuffer sb, LinkedListProc node) {
 		sb.append(node.getProcLabel()).append(" ");

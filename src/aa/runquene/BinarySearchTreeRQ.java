@@ -171,7 +171,7 @@ public class BinarySearchTreeRQ implements Runqueue {
     			}
     		}
     		
-    		if (targetNode.getProcLabel().equals(subParentNode.getProcLabel())) {
+    		if (subParentNode != null && targetNode.getProcLabel().equals(subParentNode.getProcLabel())) {
     			
     			if (targetRightNode != null) {
     				if (!substitueNode.getProcLabel().equals(targetRightNode.getProcLabel()))
@@ -185,7 +185,7 @@ public class BinarySearchTreeRQ implements Runqueue {
     			
     		}
     		
-    		if (!subParentNode.getProcLabel().equals(targetNode.getProcLabel())) {
+    		if (subParentNode != null && !subParentNode.getProcLabel().equals(targetNode.getProcLabel())) {
     			if (substitueNode.getVt() < subParentNode.getVt()) {
     				subParentNode.setLeftNode(null);
     			}else {
@@ -195,7 +195,7 @@ public class BinarySearchTreeRQ implements Runqueue {
     		
     	}
     	
-    	if (substitueNode != null || parentNode == null) {
+    	if (substitueNode != null || (substitueNode != null && parentNode == null)) {
     		substitueNode.setParentNode(parentNode);
     	}
     	
@@ -241,10 +241,10 @@ public class BinarySearchTreeRQ implements Runqueue {
     	if (targetNode == null)
     		return -1;
     	
-    	Integer sum = 0;
+    	int sum = 0;
     	BSTProc targetLeftNode = targetNode.getLeftNode();
     	if (targetLeftNode != null)
-    		sum += sumVruntime(sum, targetNode.getLeftNode());
+    		sum = sumVruntime(sum, targetNode.getLeftNode());
     	
     	if (targetNode.getVt() >= rootNode.getVt() && !procLabel.equals(rootNode.getProcLabel())) {
     		BSTProc rootLeftNode = rootNode.getLeftNode();
@@ -254,8 +254,7 @@ public class BinarySearchTreeRQ implements Runqueue {
     		}
     	}
     	
-    	sum = sumLeft(sum, targetNode);
-    	
+    	sum = sumParentLeft(sum, targetNode);
     	return sum;
     } // end of precedingProcessTime()
 
@@ -283,7 +282,7 @@ public class BinarySearchTreeRQ implements Runqueue {
     	Integer sum = 0;
     	BSTProc targetRightNode = targetNode.getRightNode();
     	if (targetRightNode != null)
-    		sum += sumVruntime(sum, targetNode.getRightNode());
+    		sum = sumVruntime(sum, targetNode.getRightNode());
     	
     	if (targetNode.getVt() < rootNode.getVt() && !procLabel.equals(rootNode.getProcLabel())) {
     		BSTProc rootRightNode = rootNode.getRightNode();
@@ -293,37 +292,58 @@ public class BinarySearchTreeRQ implements Runqueue {
     		}
     	}
     	
-    	sum = sumRight(sum, targetNode);
+    	sum = sumParentRight(sum, targetNode);
     	
     	return sum;
     } // end of precedingProcessTime()
 	
 	
-	private Integer sumLeft(Integer sum, BSTProc targetNode) {
+	private int sumParentLeft(int sum, BSTProc targetNode) {
 		
 		BSTProc targetParentNode = targetNode.getParentNode();
+		
 		if (targetParentNode != null) {
-			BSTProc targetParentLeftNode = targetParentNode.getLeftNode();
-			if ( targetParentLeftNode != null && !targetParentLeftNode.getProcLabel().equals(targetNode.getProcLabel()) ) {
-				sum += sumVruntime(sum, targetParentNode.getLeftNode());
-				return sumRight(sum, targetParentNode);
+			if (targetParentNode.getProcLabel().equals(rootNode.getProcLabel()))
+				return sum;
+			
+			if (targetNode.getVt() >= targetParentNode.getVt()) {
+				BSTProc targetParentLeftNode = targetParentNode.getLeftNode();
+				if ( targetParentLeftNode != null && !targetParentLeftNode.getProcLabel().equals(targetNode.getProcLabel()) ) {
+					sum = sumVruntime(sum, targetParentLeftNode);
+					sum = sumParentLeft(sum, targetParentNode);
+				}else {
+					sum = sumParentLeft(sum, targetParentNode);
+				}
+				sum += targetParentNode.getVt();
+			}else {
+				sum = sumParentLeft(sum, targetParentNode);
 			}
-			sum += targetParentNode.getVt();
 		}
 		return sum;
 	}
 
 
-    private Integer sumRight(Integer sum, BSTProc targetNode) {
+    private Integer sumParentRight(Integer sum, BSTProc targetNode) {
     	
     	BSTProc targetParentNode = targetNode.getParentNode();
+    	
 		if (targetParentNode != null) {
-			BSTProc targetParentRightNode = targetParentNode.getRightNode();
-			if ( targetParentRightNode != null && !targetParentRightNode.getProcLabel().equals(targetNode.getProcLabel()) ) {
-				sum += sumVruntime(sum, targetParentNode.getRightNode());
-				return sumRight(sum, targetParentNode);
+			if (targetParentNode.getProcLabel().equals(rootNode.getProcLabel()))
+				return sum;
+			
+			if(targetNode.getVt() < targetParentNode.getVt()) {
+				BSTProc targetParentRightNode = targetParentNode.getRightNode();
+				if ( targetParentRightNode != null && !targetParentRightNode.getProcLabel().equals(targetNode.getProcLabel()) ) {
+					sum = sumVruntime(sum, targetParentRightNode);
+					sum = sumParentRight(sum, targetParentNode);
+				}else {
+					sum = sumParentRight(sum, targetParentNode);
+				}
+				sum += targetParentNode.getVt();
+			}else {
+				sum = sumParentRight(sum, targetParentNode);
 			}
-			sum += targetParentNode.getVt();
+			
 		}
 		return sum;
 	}
@@ -332,10 +352,7 @@ public class BinarySearchTreeRQ implements Runqueue {
 	@Override
     public void printAllProcesses(PrintWriter os) {
         
-    	StringBuffer sb = new StringBuffer();
-		sb = getLabelWithOrderAsc(sb, rootNode);
-		
-		os.println(sb.toString());
+		os.println(this.toString());
 
     } // end of printAllProcess()
     
@@ -353,6 +370,10 @@ public class BinarySearchTreeRQ implements Runqueue {
 		
 		return sb;
 	}
+    
+    public String toString() {
+    	return getLabelWithOrderAsc(new StringBuffer(), rootNode).toString();
+    }
 
 
     private void rebuild() {
@@ -402,6 +423,10 @@ public class BinarySearchTreeRQ implements Runqueue {
 		}
 		
 		return array;
+	}
+	
+	public int getSize() {
+		return size;
 	}
 
 } // end of class BinarySearchTreeRQ

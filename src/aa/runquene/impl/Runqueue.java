@@ -75,5 +75,7 @@ public interface Runqueue {
      * @param os PrinterWriter to print to.
      */
     public abstract void printAllProcesses(PrintWriter os);
+    
+    public abstract int getSize();
 
 } // end of interface Runqueue
