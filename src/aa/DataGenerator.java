@@ -16,6 +16,7 @@ import aa.runquene.OrderedArrayRQ;
 import aa.runquene.OrderedLinkedListRQ;
 import aa.runquene.impl.Runqueue;
 
+
 /**
  * @author Chih-Hsuan Lee <s3714761>
  *
@@ -186,7 +187,7 @@ public class DataGenerator {
 
 	private static List<String> dataPreparation(Integer number) {
 		
-		String filePath = System.getProperty("user.dir")+"/src/processes.txt";
+		String filePath = System.getProperty("user.dir")+"/processes.txt";
 		List<String> data = new ArrayList<>();
 		
 		BufferedReader inReader = null;
