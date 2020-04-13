@@ -73,6 +73,7 @@ public class DataGenerator {
 				runAlgorithm.put("tree", true);
 				break;
 			case "all":
+				runAlgorithm.put("old_array", true);
 				runAlgorithm.put("array", true);
 				runAlgorithm.put("list", true);
 				runAlgorithm.put("tree", true);
