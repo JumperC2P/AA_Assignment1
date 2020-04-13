@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Random;
 
 import aa.runquene.BinarySearchTreeRQ;
+import aa.runquene.OldOrderedArrayRQ;
 import aa.runquene.OrderedArrayRQ;
 import aa.runquene.OrderedLinkedListRQ;
 import aa.runquene.impl.Runqueue;
@@ -53,11 +54,15 @@ public class DataGenerator {
 		String algorithm = args[2].toLowerCase();
 		Map<String, Boolean> runAlgorithm = new HashMap<>();
 		runAlgorithm.put("array", false);
+		runAlgorithm.put("old_array", false);
 		runAlgorithm.put("list", false);
 		runAlgorithm.put("tree", false);
 		
 		
 		switch (algorithm) {
+			case "old_array":
+				runAlgorithm.put("old_array", true);
+				break;
 			case "array":
 				runAlgorithm.put("array", true);
 				break;
@@ -123,6 +128,9 @@ public class DataGenerator {
 		
 		Runqueue queue = null;
 		switch (action) {
+			case "old_array":
+				queue = new OldOrderedArrayRQ();
+				break;
 			case "array":
 	            queue = new OrderedArrayRQ();
 	            break;

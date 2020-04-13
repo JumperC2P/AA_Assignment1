@@ -43,19 +43,18 @@ public class OrderedArrayRQ implements Runqueue {
     		enqueue(procLabel, vt);
     		size--;
     	} else {
-        		for(int j = 0; j < array.length-1; j++) {
-        			if(array[j] == null) {
-        				array[j] = new OrderedArrayProc(procLabel, vt);
-        				break;
-					}
-					else if(procLabel.equals(array[j].getProcLabel())){
-						break;
-					}
-        		if(vt < array[j].getVt()) {
-        			System.arraycopy(array, j, array, j+1, array.length-j-1);
-        			array[j] = new OrderedArrayProc(procLabel, vt);
-        			break;
-        		}
+			for (int j = 0; j < array.length - 1; j++) {
+				if (array[j] == null) {
+					array[j] = new OrderedArrayProc(procLabel, vt);
+					break;
+				} else if (procLabel.equals(array[j].getProcLabel())) {
+					break;
+				}
+				if (vt < array[j].getVt()) {
+					System.arraycopy(array, j, array, j + 1, array.length - j - 1);
+					array[j] = new OrderedArrayProc(procLabel, vt);
+					break;
+				}
         	}
     	}
     	size++;

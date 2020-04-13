@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.lang.String;
 
 import aa.runquene.BinarySearchTreeRQ;
+import aa.runquene.OldOrderedArrayRQ;
 import aa.runquene.OrderedArrayRQ;
 import aa.runquene.OrderedLinkedListRQ;
 import aa.runquene.impl.Runqueue;
@@ -200,6 +201,9 @@ public class RunqueueTester {
             case "tree":
                 queue = new BinarySearchTreeRQ();
                 break;
+            case "old_array":
+            	queue = new OldOrderedArrayRQ();
+            	break;
             default:
                 System.err.println("Unknown implmementation type.");
                 usage(progName);
