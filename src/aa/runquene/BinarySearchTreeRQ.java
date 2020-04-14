@@ -253,24 +253,24 @@ public class BinarySearchTreeRQ implements Runqueue {
 	@Override
     public int precedingProcessTime(String procLabel) {
         
-    	BSTProc targetNode = findProcessByLabel(procLabel, rootNode);
+    	BSTProc targetNode = findProcessByLabel(procLabel, rootNode); // n
     	if (targetNode == null)
     		return -1;
     	
     	int sum = 0;
     	BSTProc targetLeftNode = targetNode.getLeftNode();
-    	if (targetLeftNode != null)
+    	if (targetLeftNode != null) //n+2
     		sum = sumVruntime(sum, targetNode.getLeftNode());
     	
-    	if (targetNode.getVt() >= rootNode.getVt() && !procLabel.equals(rootNode.getProcLabel())) {
+    	if (targetNode.getVt() >= rootNode.getVt() && !procLabel.equals(rootNode.getProcLabel())) { // n+3
     		BSTProc rootLeftNode = rootNode.getLeftNode();
-    		if (rootLeftNode != null) {
+    		if (rootLeftNode != null) { // n+4
     			sum = sumVruntime(sum, rootLeftNode);
     			sum += rootNode.getVt();
     		}
     	}
     	
-    	sum = sumParentLeft(sum, targetNode);
+    	sum = sumParentLeft(sum, targetNode); // 3(n-1)-1 + n + 4 3n-4+n+4 4n
     	return sum;
     } // end of precedingProcessTime()
 
@@ -291,7 +291,7 @@ public class BinarySearchTreeRQ implements Runqueue {
 	@Override
     public int succeedingProcessTime(String procLabel) {
 		
-		BSTProc targetNode = findProcessByLabel(procLabel, rootNode);
+		BSTProc targetNode = findProcessByLabel(procLabel, rootNode); //n
     	if (targetNode == null)
     		return -1;
     	
@@ -302,7 +302,7 @@ public class BinarySearchTreeRQ implements Runqueue {
     	
     	if (targetNode.getVt() < rootNode.getVt() && !procLabel.equals(rootNode.getProcLabel())) {
     		BSTProc rootRightNode = rootNode.getRightNode();
-    		if (rootRightNode != null) {
+    		if (rootRightNode != null) { //n+4
     			sum = sumVruntime(sum, rootRightNode);
     			sum += rootNode.getVt();
     		}
@@ -314,7 +314,7 @@ public class BinarySearchTreeRQ implements Runqueue {
     } // end of precedingProcessTime()
 	
 	
-	private int sumParentLeft(int sum, BSTProc targetNode) {
+	private int sumParentLeft(int sum, BSTProc targetNode) { // 3(n-1)-1 ; 3, 3, 3, 2; n = 5
 		
 		BSTProc targetParentNode = targetNode.getParentNode();
 		

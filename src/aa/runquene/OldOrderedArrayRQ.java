@@ -174,10 +174,11 @@ public class OldOrderedArrayRQ implements Runqueue {
     	
     	int sum = 0;
     	Boolean isFound = false;
+
+    	if (this.queneArray[0] == null) //1
+    		return -1;
     	
-    	for (OrderedArrayProc process : this.queneArray) {
-    		if (process == null)
-    			break;
+    	for (OrderedArrayProc process : this.queneArray) { //10
     		
     		if (procLabel.equals(process.getProcLabel())) {
     			isFound = true;

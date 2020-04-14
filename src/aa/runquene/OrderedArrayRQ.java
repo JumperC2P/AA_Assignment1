@@ -43,7 +43,7 @@ public class OrderedArrayRQ implements Runqueue {
     		enqueue(procLabel, vt);
     		size--;
     	} else {
-			for (int j = 0; j < array.length - 1; j++) {
+			for (int j = 0; j < array.length; j++) {
 				if (array[j] == null) {
 					array[j] = new OrderedArrayProc(procLabel, vt);
 					break;
